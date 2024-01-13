@@ -118,9 +118,12 @@
 
 <form action="/superDiplom/saveParticipant" method="post" th:object="${participant}">
     <input type="hidden" th:field="*{id}"/>
-    ФИО участника <input type="text" th:field="*{fio}"/><span th:if="${#fields.hasErrors('fio')}" th:errors="*{fio}" class="error-message"></span><br><br>
+    Фамилия участника <input type="text" th:field="*{surname}"/><span th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}" class="error-message"></span><br><br>
+    Имя участника <input type="text" th:field="*{name}"/><span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error-message"></span><br><br>
+    Отчество участника <input type="text" th:field="*{patronymic}"/><span th:if="${#fields.hasErrors('patronymic')}" th:errors="*{patronymic}" class="error-message"></span><br><br>
     ТРЕНЕР <input type="text" th:field="*{coach}"/><br><br>
     МЕСТО <input type="number" th:field="*{place}"/><span th:if="${#fields.hasErrors('place')}" th:errors="*{place}" class="error-message"></span><br><br>
+    <input type="hidden" th:field="*{enable}"/>
     <input type="submit" value="OK"/>
 </form>
 

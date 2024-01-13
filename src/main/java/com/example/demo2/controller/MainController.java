@@ -2,6 +2,7 @@ package com.example.demo2.controller;
 
 import com.example.demo2.entity.Participant;
 import com.example.demo2.service.ParticipantService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -20,10 +22,14 @@ public class MainController {
     @Autowired
     ParticipantService taskService;
 
+    @Autowired
+    HttpSession httpSession;
 
     @RequestMapping("/")
     public String start_page(Model model){
-
+        if(httpSession.getAttribute("participants")==null) {
+            httpSession.setAttribute("participants", new ArrayList<Participant>());
+        }
         List<Participant> participantList = taskService.getParticipants();
         model.addAttribute("participants", participantList);
         return "start";
@@ -32,7 +38,8 @@ public class MainController {
     @RequestMapping("/addNewParticipant")
     public String addNewParticipant(Model model){
         Participant participant = new Participant();
-        participant.setId(0);
+        participant.setId(taskService.getParticipants().size());
+        participant.setEnable(true);
         model.addAttribute("participant", participant);
         return "showParticipant";
     }

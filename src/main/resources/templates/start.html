@@ -121,7 +121,7 @@
 
 
         .tdTit {
-            width: 15%;
+            width: 10%;
         }
         .tdDesc {
             width: 23%;
@@ -144,7 +144,9 @@
 <table>
     <thead>
     <tr>
-        <th class="tdTit">ФИО</th>
+        <th class="tdTit">ФАМИЛИЯ</th>
+        <th class="tdTit">ИМЯ</th>
+        <th class="tdTit">ОТЧЕСТВО</th>
         <th class="tdDesc">ТРЕНЕР</th>
         <th class="tdDead">МЕСТО</th>
         <th class="tdOper">ОПЕРАЦИИ</th>
@@ -162,7 +164,9 @@
     <tbody>
     <table th:each="participant : ${participants}">
     <tr>
-        <td th:text="${participant.fio}" class="tdTit"></td>
+        <td th:text="${participant.surname}" class="tdTit"></td>
+        <td th:text="${participant.name}" class="tdTit"></td>
+        <td th:text="${participant.patronymic}" class="tdTit"></td>
         <td th:text="${participant.coach}" class="tdDesc"></td>
         <td th:text="${participant.place}" class="tdDead"></td>
         <td class="tdOper">
@@ -178,6 +182,8 @@
 
 
 <input type="button" value="Создать дипломы" onclick="window.location.href = 'createDiploms'"/>
+
+<input type="button" value="Посмотреть базу данных" onclick="window.location.href = 'database'"/>
 
 </body>
 </html>
