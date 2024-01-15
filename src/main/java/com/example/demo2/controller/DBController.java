@@ -73,4 +73,40 @@ public class DBController {
         return "redirect:/superDiplom/database/";
     }
 
+    @RequestMapping("/refresh")
+    public String refresh_db(Model model) throws Exception{
+        List<Participant> list = (List<Participant>)httpSession.getAttribute("db_part");
+        List<Participant> list2 = new ArrayList<>();
+        int counter = 0;
+        for(int i = 0; i < list.size(); i++){
+            if(list.get(i).isEnable()){
+                Participant participant = list.get(i);
+                participant.setId(counter);
+                counter++;
+                list2.add(participant);
+            }
+        }
+        ParticipantIO.saveParticipantsToFile(list2, "participants.txt");
+        httpSession.setAttribute("db_part", list2);
+        model.addAttribute("message", "Все участники добавлены в базу данных!");
+        return "changeOK";
+    }
+
+    @RequestMapping("/import")
+    public String import_db(Model model) throws Exception{
+        List<Participant> loadedParticipants = ParticipantIO.loadParticipantsFromFile("participants.txt");
+        httpSession.setAttribute("db_part", loadedParticipants);
+        model.addAttribute("message", "ОКНО БАЗЫ ДАННЫХ СИНХРОНИЗИРОВАННО С БД!");
+        return "changeOK";
+    }
+
+    @RequestMapping("/moveParticipant/{id}")
+    public String movePart_db(@PathVariable int id) throws Exception{
+        List<Participant> list = (List<Participant>)httpSession.getAttribute("participants");
+        List<Participant> list2 = (List<Participant>)httpSession.getAttribute("db_part");
+        Participant participant = (Participant) list2.get(id).clone(); participant.setId(list.size());
+        taskService.saveParticipant(list, participant);
+        return "redirect:/superDiplom/database/";
+    }
+
 }

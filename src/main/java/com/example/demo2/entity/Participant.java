@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-public class Participant {
+public class Participant implements Cloneable {
 
     private Integer id;
     @Size(min = 3, message = "Фамилия должна состоять хотя бы из 3 символов")
@@ -108,5 +108,9 @@ public class Participant {
                 ", coach='" + coach + '\'' +
                 ", place=" + place +
                 '}';
+    }
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

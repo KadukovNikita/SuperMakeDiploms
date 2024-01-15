@@ -54,7 +54,7 @@
             background-color: #f9f9f9;
         }
 
-        a.head, a.oper{
+        a.oper{
             color: #3498db;
             text-decoration: none;
             margin-right: 10px;
@@ -130,7 +130,7 @@
             width: 10%;
         }
         .tdOper {
-            width: 18%;
+            width: 30%;
         }
 
 
@@ -175,6 +175,7 @@
         <td class="tdOper">
             <a th:href="@{updateParticipant/{id}(id=${participant.id})}" class = "oper">Изменить</a>
             <a href="#" class="oper" th:onclick="'confirmDel(' + ${participant.id} + ')'" >Удалить</a>
+            <a th:href="@{moveParticipant/{id}(id=${participant.id})}" class="oper" >Перенести в рабочее окно</a>
         </td>
     </tr>
     </table>
@@ -183,9 +184,11 @@
 
 <input type="button" value="Добавить участника" onclick="window.location.href = 'addNewParticipant'"/>
 
-<input type="button" value="Обновить базу данных" onclick="window.location.href = 'refresh/'"/>
+<input type="button" value="Обновить базу данных (перенести всех участников с экрана в БД)" onclick="window.location.href = 'refresh'"/>
 
-<input type="button" value="Вернуться в рабочее окно" onclick="window.location.href = 'redirect:/superDiplom/'"/>
+<input type="button" value="Импортировать базу данных (перенести всех участников с БД на экран)" onclick="window.location.href = 'import'"/>
+
+<input type="button" value="Вернуться в рабочее окно" onclick="window.location.href = '/superDiplom/'"/>
 
 </body>
 </html>

@@ -82,4 +82,15 @@ public class MainController {
         return "redirect:/superDiplom/";
     }
 
+    @RequestMapping("/import")
+    public String import_db(Model model) throws Exception{
+        List<Participant> loadedParticipants = ParticipantIO.loadParticipantsFromFile("participants.txt");
+        List<Participant> list = (List<Participant>)httpSession.getAttribute("participants");
+        for(int i = 0; i < loadedParticipants.size(); i++){
+            Participant participant = (Participant) loadedParticipants.get(i).clone();
+            participant.setId(list.size());
+            taskService.saveParticipant(list, participant);
+        }
+        return "redirect:/superDiplom/";
+    }
 }

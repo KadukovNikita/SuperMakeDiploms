@@ -119,18 +119,19 @@
             color: #2d6675;
         }
 
-
-        .tdTit {
-            width: 10%;
-        }
-        .tdDesc {
-            width: 23%;
-        }
-        .tdDead {
-            width: 10%;
-        }
-        .tdOper {
-            width: 18%;
+        a.oper{
+            color: #3498db;
+            text-decoration: none;
+            margin-right: 10px;
+            transition: color 0.3s ease-in-out;
+            cursor: pointer;
+            display: inline-block;
+            padding: 8px 4px;
+            padding-left: 6%;
+            padding-right: 6%;
+            border-radius: 4px;
+            border: 1px solid #3498db;
+            text-align: center;
         }
 
 
@@ -138,57 +139,9 @@
 </head>
 
 <body>
-<h1 class="to_do_list" style="font-size: 50px">
-    <span class="title-left">РАБОЧЕЕ ОКНО</span>
-</h1>
-<h1 class="to_do_list">
-    <span class="title-left">Участники</span>
-</h1>
-<table>
-    <thead>
-    <tr>
-        <th class="tdTit">ФАМИЛИЯ</th>
-        <th class="tdTit">ИМЯ</th>
-        <th class="tdTit">ОТЧЕСТВО</th>
-        <th class="tdDesc">ТРЕНЕР</th>
-        <th class="tdDead">МЕСТО</th>
-        <th class="tdOper">ОПЕРАЦИИ</th>
-    </tr>
-    </thead>
-    <script>
-        function confirmDelete(taskId) {
-            var result = window.confirm("Вы уверены, что хотите удалить участника?");
-
-            if (result) {
-                window.location.href = '/superDiplom/deleteParticipant/' + taskId;
-            }
-        }
-    </script>
-    <tbody>
-    <table th:each="participant : ${participants}">
-    <tr>
-        <td th:text="${participant.surname}" class="tdTit"></td>
-        <td th:text="${participant.name}" class="tdTit"></td>
-        <td th:text="${participant.patronymic}" class="tdTit"></td>
-        <td th:text="${participant.coach}" class="tdDesc"></td>
-        <td th:text="${participant.place}" class="tdDead"></td>
-        <td class="tdOper">
-            <a th:href="@{updateParticipant/{id}(id=${participant.id})}" class = "oper">Изменить</a>
-            <a href="#" class="oper" th:onclick="'confirmDelete(' + ${participant.id} + ')'" >Удалить</a>
-        </td>
-    </tr>
-    </table>
-    </tbody>
-</table>
-
-<input type="button" value="Добавить участника" onclick="window.location.href = 'addNewParticipant'"/>
-
-
-<input type="button" value="Создать дипломы" onclick="window.location.href = 'createDiploms'"/>
-
-<input type="button" value="Посмотреть базу данных" onclick="window.location.href = 'database/'"/>
-
-<input type="button" value="Импортировать базу данных" onclick="window.location.href = 'import'"/>
-
+<form style="text-align: center">
+    <span th:text="${message}"></span><br><br>
+    <a class="oper" href="/superDiplom/database/" >КРУТО</a>
+</form>
 </body>
 </html>
