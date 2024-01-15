@@ -139,7 +139,7 @@
 
 <body>
 <h1 class="to_do_list" style="font-size: 50px">
-    <span class="title-left">РАБОЧЕЕ ОКНО</span>
+    <span class="title-left">БАЗА ДАННЫХ</span>
 </h1>
 <h1 class="to_do_list">
     <span class="title-left">Участники</span>
@@ -156,11 +156,11 @@
     </tr>
     </thead>
     <script>
-        function confirmDelete(taskId) {
+        function confirmDel(taskId) {
             var result = window.confirm("Вы уверены, что хотите удалить участника?");
 
             if (result) {
-                window.location.href = '/superDiplom/deleteParticipant/' + taskId;
+                window.location.href = '/superDiplom/database/deleteParticipant/' + taskId;
             }
         }
     </script>
@@ -174,7 +174,7 @@
         <td th:text="${participant.place}" class="tdDead"></td>
         <td class="tdOper">
             <a th:href="@{updateParticipant/{id}(id=${participant.id})}" class = "oper">Изменить</a>
-            <a href="#" class="oper" th:onclick="'confirmDelete(' + ${participant.id} + ')'" >Удалить</a>
+            <a href="#" class="oper" th:onclick="'confirmDel(' + ${participant.id} + ')'" >Удалить</a>
         </td>
     </tr>
     </table>
@@ -183,10 +183,9 @@
 
 <input type="button" value="Добавить участника" onclick="window.location.href = 'addNewParticipant'"/>
 
+<input type="button" value="Обновить базу данных" onclick="window.location.href = 'refresh/'"/>
 
-<input type="button" value="Создать дипломы" onclick="window.location.href = 'createDiploms'"/>
-
-<input type="button" value="Посмотреть базу данных" onclick="window.location.href = 'database/'"/>
+<input type="button" value="Вернуться в рабочее окно" onclick="window.location.href = 'redirect:/superDiplom/'"/>
 
 </body>
 </html>

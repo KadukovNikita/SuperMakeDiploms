@@ -17,8 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping("/superDiplom")
-public class MainController {
+@RequestMapping("/superDiplom/database")
+public class DBController {
 
     @Autowired
     ParticipantService taskService;
@@ -27,59 +27,50 @@ public class MainController {
     HttpSession httpSession;
 
     @RequestMapping("/")
-    public String start_page(Model model) throws Exception{
-        if(httpSession.getAttribute("participants")==null) {
-            httpSession.setAttribute("participants", new ArrayList<Participant>());
-        }
+    public String start_page_db(Model model) throws Exception{
         if(httpSession.getAttribute("db_part")==null){
             List<Participant> loadedParticipants = ParticipantIO.loadParticipantsFromFile("participants.txt");
             httpSession.setAttribute("db_part", loadedParticipants);
         }
-        List<Participant> participantList = taskService.getParticipants();
+        List<Participant> participantList = taskService.getParticipantsfromDB();
         model.addAttribute("participants", participantList);
-        return "start";
+        return "database";
     }
 
     @RequestMapping("/addNewParticipant")
-    public String addNewParticipant(Model model){
+    public String addNewParticipant_db(Model model){
         Participant participant = new Participant();
-        participant.setId(taskService.getParticipants().size());
+        participant.setId(taskService.getParticipantsfromDB().size());
         participant.setEnable(true);
         model.addAttribute("participant", participant);
-        return "showParticipant";
+        return "showParticipant_db";
     }
 
     @RequestMapping("/saveParticipant")
-    public String saveParticipant(@Valid @ModelAttribute("participant") Participant participant, BindingResult bindingResult){
+    public String saveParticipant_db(@Valid @ModelAttribute("participant") Participant participant, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
-            return "showParticipant";
+            return "showParticipant_db";
         }
         else {
-            List<Participant> list = (List<Participant>)httpSession.getAttribute("participants");
+            List<Participant> list = (List<Participant>)httpSession.getAttribute("db_part");
             taskService.saveParticipant(list, participant);
-            return "redirect:/superDiplom/";
+            return "redirect:/superDiplom/database/";
         }
     }
 
     @RequestMapping("/updateParticipant/{id}")
-    public String updateInfo(@PathVariable int id, Model model){
-        List<Participant> list = (List<Participant>)httpSession.getAttribute("participants");
+    public String updateInfo_db(@PathVariable int id, Model model){
+        List<Participant> list = (List<Participant>)httpSession.getAttribute("db_part");
         Participant participant = taskService.getParticipant(list, id);
         model.addAttribute("participant", participant);
-        return "showParticipant";
+        return "showParticipant_db";
     }
 
     @RequestMapping("/deleteParticipant/{id}")
-    public String deleteInfo(@PathVariable int id){
-        List<Participant> list = (List<Participant>)httpSession.getAttribute("participants");
+    public String deletePart_db(@PathVariable int id){
+        List<Participant> list = (List<Participant>)httpSession.getAttribute("db_part");
         taskService.deleteParticipant(list, id);
-        return "redirect:/superDiplom/";
-    }
-
-    @RequestMapping("/createDiploms")
-    public String createDiploms(){
-        taskService.createDiploms();
-        return "redirect:/superDiplom/";
+        return "redirect:/superDiplom/database/";
     }
 
 }

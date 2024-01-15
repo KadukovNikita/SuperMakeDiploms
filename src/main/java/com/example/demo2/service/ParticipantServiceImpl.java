@@ -25,9 +25,12 @@ public class ParticipantServiceImpl implements ParticipantService {
         return ((List<Participant>)httpSession.getAttribute("participants")).stream().filter(h -> h.isEnable()).toList();
     }
 
+    public List<Participant> getParticipantsfromDB(){
+        return ((List<Participant>)httpSession.getAttribute("db_part")).stream().filter(h -> h.isEnable()).toList();
+    }
+
     @Override
-    public void saveParticipant(Participant participant) {
-        List<Participant> list = (List<Participant>)httpSession.getAttribute("participants");
+    public void saveParticipant(List<Participant> list, Participant participant) {
         if(participant.getId()>list.size()-1){
             list.add(participant);
         }
@@ -38,13 +41,12 @@ public class ParticipantServiceImpl implements ParticipantService {
 
 
     @Override
-    public Participant getParticipant(int id) {
-        return ((List<Participant>)httpSession.getAttribute("participants")).get(id);
+    public Participant getParticipant(List<Participant> list, int id) {
+        return list.get(id);
     }
 
     @Override
-    public void deleteParticipant(int id) {
-        List<Participant> list = (List<Participant>)httpSession.getAttribute("participants");
+    public void deleteParticipant(List<Participant> list, int id) {
         Participant participant = list.get(id);
         participant.setEnable(!participant.isEnable());
         list.set(id, participant);

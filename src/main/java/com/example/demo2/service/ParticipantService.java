@@ -8,11 +8,13 @@ import java.util.List;
 public interface ParticipantService {
     public List<Participant> getParticipants();
 
-    public void saveParticipant(Participant participant);
+    public List<Participant> getParticipantsfromDB();
 
-    public Participant getParticipant(int id);
+    public void saveParticipant(List<Participant> list, Participant participant);
 
-    public void deleteParticipant(int id);
+    public Participant getParticipant(List<Participant> list, int id);
+
+    public void deleteParticipant(List<Participant> list, int id);
 
     public void createDiploms();
 }
