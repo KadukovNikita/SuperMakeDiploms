@@ -19,7 +19,11 @@ public class Participant implements Cloneable {
     @Size(min = 3, message = "Отчество должно состоять хотя бы из 3 символов")
     @NotBlank
     private String patronymic;
-    private String coach;
+    private String coach_name;
+
+    private String coach_surname;
+
+    private String coach_patronymic;
 
     @Min(value = 0, message = "Место - от 0 до 3")
     @NotNull(message = "Пропишите место")
@@ -32,12 +36,14 @@ public class Participant implements Cloneable {
 
     }
 
-    public Participant(Integer id, String surname, String name, String patronymic, String coach, Integer place, boolean enable) {
+    public Participant(Integer id, String surname, String name, String patronymic, String coach_name, String coach_surname, String coach_patronymic, Integer place, boolean enable) {
         this.id = id;
         this.surname = surname;
         this.name = name;
         this.patronymic = patronymic;
-        this.coach = coach;
+        this.coach_name = coach_name;
+        this.coach_surname = coach_surname;
+        this.coach_patronymic = coach_patronymic;
         this.place = place;
         this.enable = enable;
     }
@@ -74,12 +80,28 @@ public class Participant implements Cloneable {
         this.patronymic = patronymic;
     }
 
-    public String getCoach() {
-        return coach;
+    public String getCoach_name() {
+        return coach_name;
     }
 
-    public void setCoach(String coach) {
-        this.coach = coach;
+    public void setCoach_name(String coach_name) {
+        this.coach_name = coach_name;
+    }
+
+    public String getCoach_surname() {
+        return coach_surname;
+    }
+
+    public void setCoach_surname(String coach_surname) {
+        this.coach_surname = coach_surname;
+    }
+
+    public String getCoach_patronymic() {
+        return coach_patronymic;
+    }
+
+    public void setCoach_patronymic(String coach_patronymic) {
+        this.coach_patronymic = coach_patronymic;
     }
 
     public Integer getPlace() {
@@ -105,10 +127,14 @@ public class Participant implements Cloneable {
                 ", surname='" + surname + '\'' +
                 ", name='" + name + '\'' +
                 ", patronymic='" + patronymic + '\'' +
-                ", coach='" + coach + '\'' +
+                ", coach_name='" + coach_name + '\'' +
+                ", coach_surname='" + coach_surname + '\'' +
+                ", coach_patronymic='" + coach_patronymic + '\'' +
                 ", place=" + place +
+                ", enable=" + enable +
                 '}';
     }
+
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();

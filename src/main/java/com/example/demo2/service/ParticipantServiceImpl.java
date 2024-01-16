@@ -113,7 +113,7 @@ public class ParticipantServiceImpl implements ParticipantService {
                     trenerRun.setColor("000099");
                     trenerRun.setFontSize(18);
                     trenerRun.setBold(true);
-                    trenerRun.setText(participants.get(i-1).getCoach());
+                    trenerRun.setText(participants.get(i-1).getCoach_surname() + " " + participants.get(i-1).getCoach_name() + " " + participants.get(i-1).getCoach_patronymic());
 
                     XWPFParagraph dateParagraph = paragraphs.get(28);
 

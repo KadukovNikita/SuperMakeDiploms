@@ -121,7 +121,7 @@
 
 
         .tdTit {
-            width: 10%;
+            width: 25%;
         }
         .tdDesc {
             width: 23%;
@@ -147,9 +147,7 @@
 <table>
     <thead>
     <tr>
-        <th class="tdTit">ФАМИЛИЯ</th>
-        <th class="tdTit">ИМЯ</th>
-        <th class="tdTit">ОТЧЕСТВО</th>
+        <th class="tdTit">УЧАСТНИК</th>
         <th class="tdDesc">ТРЕНЕР</th>
         <th class="tdDead">МЕСТО</th>
         <th class="tdOper">ОПЕРАЦИИ</th>
@@ -167,10 +165,8 @@
     <tbody>
     <table th:each="participant : ${participants}">
     <tr>
-        <td th:text="${participant.surname}" class="tdTit"></td>
-        <td th:text="${participant.name}" class="tdTit"></td>
-        <td th:text="${participant.patronymic}" class="tdTit"></td>
-        <td th:text="${participant.coach}" class="tdDesc"></td>
+        <td th:text="${participant.surname + ' ' + participant.name + ' ' + participant.patronymic}" class="tdTit"></td>
+        <td th:text="${participant.coach_surname + ' ' + participant.coach_name + ' ' + participant.coach_patronymic}" class="tdDesc"></td>
         <td th:text="${participant.place}" class="tdDead"></td>
         <td class="tdOper">
             <a th:href="@{updateParticipant/{id}(id=${participant.id})}" class = "oper">Изменить</a>

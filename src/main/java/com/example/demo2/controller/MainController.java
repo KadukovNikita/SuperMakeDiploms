@@ -21,7 +21,7 @@ import java.util.List;
 public class MainController {
 
     @Autowired
-    ParticipantService taskService;
+    ParticipantService participantService;
 
     @Autowired
     HttpSession httpSession;
@@ -35,7 +35,7 @@ public class MainController {
             List<Participant> loadedParticipants = ParticipantIO.loadParticipantsFromFile("participants.txt");
             httpSession.setAttribute("db_part", loadedParticipants);
         }
-        List<Participant> participantList = taskService.getParticipants();
+        List<Participant> participantList = participantService.getParticipants();
         model.addAttribute("participants", participantList);
         return "start";
     }
@@ -43,7 +43,7 @@ public class MainController {
     @RequestMapping("/addNewParticipant")
     public String addNewParticipant(Model model){
         Participant participant = new Participant();
-        participant.setId(taskService.getParticipants().size());
+        participant.setId(participantService.getParticipants().size());
         participant.setEnable(true);
         model.addAttribute("participant", participant);
         return "showParticipant";
@@ -56,7 +56,7 @@ public class MainController {
         }
         else {
             List<Participant> list = (List<Participant>)httpSession.getAttribute("participants");
-            taskService.saveParticipant(list, participant);
+            participantService.saveParticipant(list, participant);
             return "redirect:/superDiplom/";
         }
     }
@@ -64,7 +64,7 @@ public class MainController {
     @RequestMapping("/updateParticipant/{id}")
     public String updateInfo(@PathVariable int id, Model model){
         List<Participant> list = (List<Participant>)httpSession.getAttribute("participants");
-        Participant participant = taskService.getParticipant(list, id);
+        Participant participant = participantService.getParticipant(list, id);
         model.addAttribute("participant", participant);
         return "showParticipant";
     }
@@ -72,13 +72,13 @@ public class MainController {
     @RequestMapping("/deleteParticipant/{id}")
     public String deleteInfo(@PathVariable int id){
         List<Participant> list = (List<Participant>)httpSession.getAttribute("participants");
-        taskService.deleteParticipant(list, id);
+        participantService.deleteParticipant(list, id);
         return "redirect:/superDiplom/";
     }
 
     @RequestMapping("/createDiploms")
     public String createDiploms(){
-        taskService.createDiploms();
+        participantService.createDiploms();
         return "redirect:/superDiplom/";
     }
 
@@ -89,7 +89,7 @@ public class MainController {
         for(int i = 0; i < loadedParticipants.size(); i++){
             Participant participant = (Participant) loadedParticipants.get(i).clone();
             participant.setId(list.size());
-            taskService.saveParticipant(list, participant);
+            participantService.saveParticipant(list, participant);
         }
         return "redirect:/superDiplom/";
     }

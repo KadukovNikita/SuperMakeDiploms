@@ -21,7 +21,7 @@ import java.util.List;
 public class DBController {
 
     @Autowired
-    ParticipantService taskService;
+    ParticipantService participantService;
 
     @Autowired
     HttpSession httpSession;
@@ -32,7 +32,7 @@ public class DBController {
             List<Participant> loadedParticipants = ParticipantIO.loadParticipantsFromFile("participants.txt");
             httpSession.setAttribute("db_part", loadedParticipants);
         }
-        List<Participant> participantList = taskService.getParticipantsfromDB();
+        List<Participant> participantList = participantService.getParticipantsfromDB();
         model.addAttribute("participants", participantList);
         return "database";
     }
@@ -40,7 +40,7 @@ public class DBController {
     @RequestMapping("/addNewParticipant")
     public String addNewParticipant_db(Model model){
         Participant participant = new Participant();
-        participant.setId(taskService.getParticipantsfromDB().size());
+        participant.setId(participantService.getParticipantsfromDB().size());
         participant.setEnable(true);
         model.addAttribute("participant", participant);
         return "showParticipant_db";
@@ -53,7 +53,7 @@ public class DBController {
         }
         else {
             List<Participant> list = (List<Participant>)httpSession.getAttribute("db_part");
-            taskService.saveParticipant(list, participant);
+            participantService.saveParticipant(list, participant);
             return "redirect:/superDiplom/database/";
         }
     }
@@ -61,7 +61,7 @@ public class DBController {
     @RequestMapping("/updateParticipant/{id}")
     public String updateInfo_db(@PathVariable int id, Model model){
         List<Participant> list = (List<Participant>)httpSession.getAttribute("db_part");
-        Participant participant = taskService.getParticipant(list, id);
+        Participant participant = participantService.getParticipant(list, id);
         model.addAttribute("participant", participant);
         return "showParticipant_db";
     }
@@ -69,7 +69,7 @@ public class DBController {
     @RequestMapping("/deleteParticipant/{id}")
     public String deletePart_db(@PathVariable int id){
         List<Participant> list = (List<Participant>)httpSession.getAttribute("db_part");
-        taskService.deleteParticipant(list, id);
+        participantService.deleteParticipant(list, id);
         return "redirect:/superDiplom/database/";
     }
 
@@ -105,7 +105,7 @@ public class DBController {
         List<Participant> list = (List<Participant>)httpSession.getAttribute("participants");
         List<Participant> list2 = (List<Participant>)httpSession.getAttribute("db_part");
         Participant participant = (Participant) list2.get(id).clone(); participant.setId(list.size());
-        taskService.saveParticipant(list, participant);
+        participantService.saveParticipant(list, participant);
         return "redirect:/superDiplom/database/";
     }
 

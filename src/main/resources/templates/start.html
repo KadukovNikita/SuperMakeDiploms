@@ -121,7 +121,7 @@
 
 
         .tdTit {
-            width: 10%;
+            width: 25%;
         }
         .tdDesc {
             width: 23%;
@@ -147,9 +147,7 @@
 <table>
     <thead>
     <tr>
-        <th class="tdTit">ФАМИЛИЯ</th>
-        <th class="tdTit">ИМЯ</th>
-        <th class="tdTit">ОТЧЕСТВО</th>
+        <th class="tdTit">УЧАСТНИК</th>
         <th class="tdDesc">ТРЕНЕР</th>
         <th class="tdDead">МЕСТО</th>
         <th class="tdOper">ОПЕРАЦИИ</th>
@@ -167,10 +165,8 @@
     <tbody>
     <table th:each="participant : ${participants}">
     <tr>
-        <td th:text="${participant.surname}" class="tdTit"></td>
-        <td th:text="${participant.name}" class="tdTit"></td>
-        <td th:text="${participant.patronymic}" class="tdTit"></td>
-        <td th:text="${participant.coach}" class="tdDesc"></td>
+        <td th:text="${participant.surname + ' ' + participant.name + ' ' + participant.patronymic}" class="tdTit"></td>
+        <td th:text="${participant.coach_surname + ' ' + participant.coach_name + ' ' + participant.coach_patronymic}" class="tdDesc"></td>
         <td th:text="${participant.place}" class="tdDead"></td>
         <td class="tdOper">
             <a th:href="@{updateParticipant/{id}(id=${participant.id})}" class = "oper">Изменить</a>
@@ -190,7 +186,7 @@
 
 <input type="button" value="Импортировать базу данных" onclick="window.location.href = 'import'"/>
 
-<h2>File Upload Form</h2>
+<h2>CSV-File Upload Form </h2>
 <form action="/upload/csv" method="post" enctype="multipart/form-data">
     <label for="file">Choose a file:</label>
     <input type="file" id="file" name="file" accept=".txt, .csv">
@@ -199,10 +195,27 @@
     <button type="submit">Upload</button>
 </form>
 
+<h2>XLSX-File Upload Form </h2>
 <form action="/upload/xlsx" method="post" enctype="multipart/form-data">
     <label for="file2">Choose a file:</label>
     <input type="file" id="file2" name="file2" accept=".xlsx">
     <input type="hidden" name="booleanParam2" value="true" />
+    <br>
+    <button type="submit">Upload</button>
+</form>
+
+<h2>SUPER_XLSX-File Upload Form </h2>
+<form action="/upload/superxlsx" method="post" enctype="multipart/form-data">
+    <label for="file3">Choose a file:</label>
+    <input type="file" id="file3" name="file3" accept=".xlsx"><br>
+    Столбец с фамилией<input type="number" name="col_surname"><br>
+    Столбец с именем<input type="number" name="col_name"><br>
+    Столбец с отчеством<input type="number" name="col_patronymic"><br>
+    Столбец с фамилией Тренера<input type="number" name="col_coach_surname"><br>
+    Столбец с именем Тренера<input type="number" name="col_coach_name"><br>
+    Столбец с отчеством Тренера<input type="number" name="col_coach_patronymic"><br>
+    Столбец со степенью диплома<input type="number" name="col_place"><br>
+    <input type="hidden" name="booleanParam3" value="true" />
     <br>
     <button type="submit">Upload</button>
 </form>

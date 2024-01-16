@@ -23,7 +23,7 @@ import java.util.List;
 public class FileController {
 
     @Autowired
-    ParticipantService taskService;
+    ParticipantService participantService;
 
     @Autowired
     HttpSession httpSession;
@@ -81,7 +81,7 @@ public class FileController {
                     }
                     participant.setEnable(true);
                     participant.setId(list.size());
-                    taskService.saveParticipant(list, participant);
+                    participantService.saveParticipant(list, participant);
                     System.out.println(participant);
                 }
                 cnt++;
@@ -136,15 +136,17 @@ public class FileController {
 
                         if (isNumeric(value)) {
                             int integerValue = (int)Double.parseDouble(value);
+                            System.out.println("*" + fields.getCell(i).toString() + "*" + integerValue);
                             setFieldValue(participant, fields.getCell(i).toString(), integerValue);
                         }
                         else {
+                            System.out.println(fields.getCell(i).toString());
                             setFieldValue(participant, fields.getCell(i).toString(), value);
                         }
                     }
                     participant.setEnable(true);
                     participant.setId(list.size());
-                    taskService.saveParticipant(list, participant);
+                    participantService.saveParticipant(list, participant);
                     System.out.println(participant);
                 }
                 cnt++;
@@ -164,4 +166,62 @@ public class FileController {
         }
     }
 
+
+    @RequestMapping("/superxlsx")
+    public String handleSuperXlsxUpload(Model model, @RequestParam("file3") MultipartFile file,
+                                        @RequestParam("booleanParam3") boolean booleanParam, @RequestParam("col_name") int col_name,
+                                        @RequestParam("col_surname") int col_surname, @RequestParam("col_patronymic") int col_patronymic,
+                                        @RequestParam("col_coach_name") int col_coach_name, @RequestParam("col_coach_surname") int col_coach_surname,
+                                        @RequestParam("col_coach_patronymic") int col_coach_patronymic, @RequestParam("col_place") int col_place) throws Exception{
+        InputStream inputStream = file.getInputStream();
+        System.out.println(col_name + " " + col_surname + " " + col_patronymic + " " + col_coach_surname + " " + col_coach_name + " " + col_coach_patronymic + " " + col_place);
+        if (!file.isEmpty()) {
+            System.out.println("*************" + booleanParam);
+            Workbook workbook = WorkbookFactory.create(inputStream);
+            Sheet sheet = workbook.getSheetAt(0);
+
+            int cnt = -1;
+
+            List<Participant> list;
+
+            if(booleanParam) {
+                list = (List<Participant>) httpSession.getAttribute("participants");
+            }
+            else{
+                list = (List<Participant>) httpSession.getAttribute("db_part");
+            }
+
+            for (Row row : sheet) {
+                cnt++;
+                if(cnt == 0) continue;
+                else {
+                    Participant participant = new Participant();
+                    if(col_name>0) participant.setName(row.getCell(col_name-1).toString()); else participant.setName("");
+                    if(col_surname>0) participant.setSurname(row.getCell(col_surname-1).toString()); else participant.setSurname("");
+                    if(col_patronymic>0) participant.setPatronymic(row.getCell(col_patronymic-1).toString()); else participant.setPatronymic("");
+                    if(col_coach_name>0) participant.setCoach_name(row.getCell(col_coach_name-1).toString()); else participant.setCoach_name("");
+                    if(col_coach_surname>0) participant.setCoach_surname(row.getCell(col_coach_surname-1).toString()); else participant.setCoach_surname("");
+                    if(col_coach_patronymic>0) participant.setCoach_patronymic(row.getCell(col_coach_patronymic-1).toString()); else participant.setCoach_patronymic("");
+                    if(col_place>0) participant.setPlace((int)Double.parseDouble(row.getCell(col_place-1).toString())); else participant.setPlace(1);
+
+                    participant.setEnable(true);
+                    participant.setId(list.size());
+                    participantService.saveParticipant(list, participant);
+                    System.out.println(participant);
+                }
+            }
+            if(booleanParam) {
+                httpSession.setAttribute("participants", list);
+                return "redirect:/superDiplom/";
+            }
+            else{
+                httpSession.setAttribute("db_part", list);
+                return "redirect:/superDiplom/database/";
+            }
+        }
+        else {
+            model.addAttribute("message", "ОШИБКА С ЗАГРУЗКОЙ ФАЙЛА!");
+            return "changeOK";
+        }
+    }
 }
