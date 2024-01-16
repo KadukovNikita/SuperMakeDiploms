@@ -199,5 +199,13 @@
     <button type="submit">Upload</button>
 </form>
 
+<form action="/upload/xlsx" method="post" enctype="multipart/form-data">
+    <label for="file2">Choose a file:</label>
+    <input type="file" id="file2" name="file2" accept=".xlsx">
+    <input type="hidden" name="booleanParam2" value="true" />
+    <br>
+    <button type="submit">Upload</button>
+</form>
+
 </body>
 </html>
